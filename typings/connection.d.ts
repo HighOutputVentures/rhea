@@ -68,6 +68,10 @@ export interface ConnectionDetails {
  */
 export interface ConnectionOptions extends EndpointOptions {
   /**
+   * @property {number} [bufferSize] Maximum buffer size for the connection. Defaults to 2048
+   */
+  bufferSize?: number
+  /**
    * @property {string} [username] - The username.
    */
   username?: string;
@@ -101,7 +105,7 @@ export interface ConnectionOptions extends EndpointOptions {
    * provided, it will be used in the `open` frame to let the peer know about the container id.
    * However, the associated container object would still be the same container object from
    * which the connection is being created.
-   * 
+   *
    * The `"container_id"` is how the peer will identify the 'container' the connection is being
    * established from. The container in AMQP terminology is roughly analogous to a process.
    * Using a different container id on connections from the same process would cause the peer to
@@ -376,7 +380,7 @@ export interface SenderOptions extends LinkOptions {
   autosettle?: boolean;
   /**
    * @property {object} target  - The target to which messages are sent.
-   * 
+   *
    * If the target is set to `{}` no target address will be associated with the sender; the peer
    * may use the `to` field on each individual message to handle it correctly in that case.
    * This is useful where maintaining or setting up a sender for each target address is
@@ -413,7 +417,7 @@ export interface MessageAnnotations {
  * Describes the delivery annotations. It is used for delivery-specific non-standard
  * properties at the head of the message. It conveys information from the sending
  * peer to the receiving peer. This is the base interface for Delivery Annotations.
- * 
+ *
  * @interface DeliveryAnnotations
  */
 export interface DeliveryAnnotations {
