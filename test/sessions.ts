@@ -33,6 +33,21 @@ describe('session error handling', function () {
         listener.close();
     });
 
+    it('sets max buffer size', function (done: Function) {
+        var c: rhea.Connection = container.connect(Object.assign(listener.address(), { bufferSize: 1024 }));
+
+        assert.equal((c as any).session_policy.get_session().outgoing.deliveries.capacity, 1024)
+        c.on('connection_close', function () {
+            done();
+        })
+        container.on('session_close', function (context) {
+            context.connection.close();
+        });
+        container.on('session_open', function (context: rhea.EventContext) {
+            context.session!.close();
+        });
+    });
+
     it('error and close handled', function (done: Function) {
         var error_handler_called: boolean;
         var close_handler_called: boolean;
